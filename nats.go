@@ -83,6 +83,10 @@ func (n *nbroker) Subscribe(topic string, handler broker.Handler) (broker.Subscr
 	return &subscriber{s: sub}, nil
 }
 
+func (n *nbroker) String() string {
+	return "nats"
+}
+
 func NewBroker(addrs []string, opt ...broker.Option) broker.Broker {
 	var cAddrs []string
 	for _, addr := range addrs {
