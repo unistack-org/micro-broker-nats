@@ -12,6 +12,7 @@ import (
 type nbroker struct {
 	addrs []string
 	conn  *nats.Conn
+	opts  broker.Options
 }
 
 type subscriber struct {
@@ -40,7 +41,7 @@ func (n *publication) Ack() error {
 	return nil
 }
 
-func (n *subscriber) Config() broker.SubscribeOptions {
+func (n *subscriber) Options() broker.SubscribeOptions {
 	return n.opts
 }
 
@@ -81,6 +82,10 @@ func (n *nbroker) Disconnect() error {
 
 func (n *nbroker) Init(opts ...broker.Option) error {
 	return nil
+}
+
+func (n *nbroker) Options() broker.Options {
+	return n.opts
 }
 
 func (n *nbroker) Publish(topic string, msg *broker.Message, opts ...broker.PublishOption) error {
