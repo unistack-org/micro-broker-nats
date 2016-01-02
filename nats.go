@@ -26,7 +26,7 @@ type publication struct {
 }
 
 func init() {
-	cmd.Brokers["nats"] = NewBroker
+	cmd.DefaultBrokers["nats"] = NewBroker
 }
 
 func (n *publication) Topic() string {
