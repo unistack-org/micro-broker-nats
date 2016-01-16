@@ -68,6 +68,7 @@ func (n *nbroker) Connect() error {
 	opts := nats.DefaultOptions
 	opts.Servers = n.addrs
 	opts.Secure = n.opts.Secure
+	opts.TLSConfig = n.opts.TLSConfig
 
 	c, err := opts.Connect()
 	if err != nil {
