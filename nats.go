@@ -67,6 +67,8 @@ func (n *nbroker) Connect() error {
 
 	opts := nats.DefaultOptions
 	opts.Servers = n.addrs
+	opts.Secure = n.opts.Secure
+
 	c, err := opts.Connect()
 	if err != nil {
 		return err
@@ -81,6 +83,9 @@ func (n *nbroker) Disconnect() error {
 }
 
 func (n *nbroker) Init(opts ...broker.Option) error {
+	for _, o := range opts {
+		o(&n.opts)
+	}
 	return nil
 }
 
