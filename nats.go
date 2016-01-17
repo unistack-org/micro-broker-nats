@@ -70,6 +70,11 @@ func (n *nbroker) Connect() error {
 	opts.Secure = n.opts.Secure
 	opts.TLSConfig = n.opts.TLSConfig
 
+	// secure might not be set
+	if n.opts.TLSConfig != nil {
+		opts.Secure = true
+	}
+
 	c, err := opts.Connect()
 	if err != nil {
 		return err
