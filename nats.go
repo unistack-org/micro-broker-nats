@@ -142,9 +142,14 @@ func (n *nbroker) String() string {
 	return "nats"
 }
 
-func NewBroker(addrs []string, opt ...broker.Option) broker.Broker {
+func NewBroker(opts ...broker.Option) broker.Broker {
+	var options broker.Options
+	for _, o := range opts {
+		o(&options)
+	}
+
 	var cAddrs []string
-	for _, addr := range addrs {
+	for _, addr := range options.Addrs {
 		if len(addr) == 0 {
 			continue
 		}
