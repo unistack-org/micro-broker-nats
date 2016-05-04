@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/apcera/nats"
 	"github.com/micro/go-micro/broker"
 	"github.com/micro/go-micro/cmd"
+	"github.com/nats-io/nats"
 )
 
 type nbroker struct {
