@@ -163,6 +163,6 @@ func NewBroker(opts ...broker.Option) broker.Broker {
 	}
 	return &nbroker{
 		addrs: cAddrs,
-		opts: options,
+		opts:  options,
 	}
 }
