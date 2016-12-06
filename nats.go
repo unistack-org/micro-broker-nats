@@ -1,10 +1,10 @@
 package nats
 
 import (
-	"encoding/json"
 	"strings"
 
 	"github.com/micro/go-micro/broker"
+	"github.com/micro/go-micro/broker/codec/json"
 	"github.com/micro/go-micro/cmd"
 	"github.com/nats-io/nats"
 )
@@ -100,7 +100,7 @@ func (n *nbroker) Options() broker.Options {
 }
 
 func (n *nbroker) Publish(topic string, msg *broker.Message, opts ...broker.PublishOption) error {
-	b, err := json.Marshal(msg)
+	b, err := n.opts.Codec.Marshal(msg)
 	if err != nil {
 		return err
 	}
@@ -118,7 +118,7 @@ func (n *nbroker) Subscribe(topic string, handler broker.Handler, opts ...broker
 
 	fn := func(msg *nats.Msg) {
 		var m *broker.Message
-		if err := json.Unmarshal(msg.Data, &m); err != nil {
+		if err := n.opts.Codec.Unmarshal(msg.Data, &m); err != nil {
 			return
 		}
 		handler(&publication{m: m, t: topic})
@@ -143,7 +143,11 @@ func (n *nbroker) String() string {
 }
 
 func NewBroker(opts ...broker.Option) broker.Broker {
-	var options broker.Options
+	options := broker.Options{
+		// Default codec
+		Codec: json.NewCodec(),
+	}
+
 	for _, o := range opts {
 		o(&options)
 	}
