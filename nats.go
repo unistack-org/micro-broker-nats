@@ -117,11 +117,11 @@ func (n *nbroker) Subscribe(topic string, handler broker.Handler, opts ...broker
 	}
 
 	fn := func(msg *nats.Msg) {
-		var m *broker.Message
+		var m broker.Message
 		if err := n.opts.Codec.Unmarshal(msg.Data, &m); err != nil {
 			return
 		}
-		handler(&publication{m: m, t: topic})
+		handler(&publication{m: &m, t: topic})
 	}
 
 	var sub *nats.Subscription
