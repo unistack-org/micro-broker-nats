@@ -1,3 +1,4 @@
+// Package nats provides a NATS broker
 package nats
 
 import (
