@@ -61,6 +61,23 @@ func (n *nbroker) Address() string {
 	return ""
 }
 
+func setAddrs(addrs []string) []string {
+	var cAddrs []string
+	for _, addr := range addrs {
+		if len(addr) == 0 {
+			continue
+		}
+		if !strings.HasPrefix(addr, "nats://") {
+			addr = "nats://" + addr
+		}
+		cAddrs = append(cAddrs, addr)
+	}
+	if len(cAddrs) == 0 {
+		cAddrs = []string{nats.DefaultURL}
+	}
+	return cAddrs
+}
+
 func (n *nbroker) Connect() error {
 	if n.conn != nil {
 		return nil
@@ -93,6 +110,7 @@ func (n *nbroker) Init(opts ...broker.Option) error {
 	for _, o := range opts {
 		o(&n.opts)
 	}
+	n.addrs = setAddrs(n.opts.Addrs)
 	return nil
 }
 
@@ -153,21 +171,8 @@ func NewBroker(opts ...broker.Option) broker.Broker {
 		o(&options)
 	}
 
-	var cAddrs []string
-	for _, addr := range options.Addrs {
-		if len(addr) == 0 {
-			continue
-		}
-		if !strings.HasPrefix(addr, "nats://") {
-			addr = "nats://" + addr
-		}
-		cAddrs = append(cAddrs, addr)
-	}
-	if len(cAddrs) == 0 {
-		cAddrs = []string{nats.DefaultURL}
-	}
 	return &nbroker{
-		addrs: cAddrs,
+		addrs: setAddrs(options.Addrs),
 		opts:  options,
 	}
 }
