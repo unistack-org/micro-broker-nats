@@ -1,36 +1,96 @@
 package nats
 
 import (
+	"fmt"
 	"testing"
 
-	"fmt"
-
 	"github.com/micro/go-micro/broker"
+	"github.com/nats-io/nats"
 )
+
+var addrTestCases = []struct {
+	name        string
+	description string
+	addrs       map[string]string // expected address : set address
+}{
+	{
+		"brokerOptionConstructor",
+		"set broker addresses through a broker.Option in constructor",
+		map[string]string{
+			"nats://192.168.10.1:5222": "192.168.10.1:5222",
+			"nats://10.20.10.0:4222":   "10.20.10.0:4222"},
+	},
+	{
+		"brokerOptionInit",
+		"set broker addresses through a broker.Option in broker.Init()",
+		map[string]string{
+			"nats://192.168.10.1:5222": "192.168.10.1:5222",
+			"nats://10.20.10.0:4222":   "10.20.10.0:4222"},
+	},
+	{
+		"natsOptionConstructor",
+		"set broker addresses through the nats.Option in constructor",
+		map[string]string{
+			"nats://192.168.10.1:5222": "192.168.10.1:5222",
+			"nats://10.20.10.0:4222":   "10.20.10.0:4222"},
+	},
+	{
+		"default",
+		"check if default Address is set correctly",
+		map[string]string{
+			"nats://localhost:4222": ""},
+	},
+}
 
 // TestInitAddrs tests issue #100. Ensures that if the addrs is set by an option in init it will be used.
 func TestInitAddrs(t *testing.T) {
-	nb := NewBroker()
 
-	addr1, addr2 := "192.168.10.1:5222", "10.20.10.0:4222"
+	for _, tc := range addrTestCases {
+		t.Run(fmt.Sprintf("%s: %s", tc.name, tc.description), func(t *testing.T) {
 
-	nb.Init(broker.Addrs(addr1, addr2))
+			var br broker.Broker
+			var addrs []string
 
-	if len(nb.Options().Addrs) != 2 {
-		t.Errorf("Expected Addr count = 2, Actual Addr count = %d", len(nb.Options().Addrs))
+			for _, addr := range tc.addrs {
+				addrs = append(addrs, addr)
+			}
+
+			switch tc.name {
+			case "brokerOptionConstructor":
+				// we know that there are just two addrs in the dict
+				br = NewBroker(broker.Addrs(addrs[0], addrs[1]))
+				br.Init()
+			case "brokerOptionInit":
+				br = NewBroker()
+				// we know that there are just two addrs in the dict
+				br.Init(broker.Addrs(addrs[0], addrs[1]))
+			case "natsOptionConstructor":
+				nopts := nats.GetDefaultOptions()
+				nopts.Servers = addrs
+				br = NewBroker(NatsOptions(nopts))
+				br.Init()
+			case "default":
+				br = NewBroker()
+				br.Init()
+			}
+
+			natsBroker, ok := br.(*nbroker)
+			if !ok {
+				t.Fatal("Expected broker to be of types *nbroker")
+			}
+			// check if the same amount of addrs we set has actually been set
+			if len(natsBroker.addrs) != len(tc.addrs) {
+				t.Errorf("Expected Addr count = %d, Actual Addr count = %d",
+					len(natsBroker.addrs), len(tc.addrs))
+			}
+
+			for _, addr := range natsBroker.addrs {
+				_, ok := tc.addrs[addr]
+				if !ok {
+					t.Errorf("Expected '%s' has not been set", addr)
+				}
+			}
+		})
+
 	}
-
-	natsBroker, ok := nb.(*nbroker)
-	if !ok {
-		t.Fatal("Expected broker to be of types *nbroker")
-	}
-
-	addr1f := fmt.Sprintf("nats://%s", addr1)
-	addr2f := fmt.Sprintf("nats://%s", addr2)
-
-	if natsBroker.addrs[0] != addr1f && natsBroker.addrs[1] != addr2f {
-		expAddr, actAddr := fmt.Sprintf("%s,%s", addr1f, addr2f), fmt.Sprintf("%s,%s", natsBroker.addrs[0], natsBroker.addrs[1])
-		t.Errorf("Expected = '%s', Actual = '%s'", expAddr, actAddr)
-	}
-
 }
