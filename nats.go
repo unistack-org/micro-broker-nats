@@ -170,38 +170,39 @@ func (n *nbroker) String() string {
 
 func NewBroker(opts ...broker.Option) broker.Broker {
 
-	bopts := &brokerOptions{
-		natsOptions: DefaultNatsOptions,
-	}
-
 	options := broker.Options{
 		// Default codec
 		Codec:   json.NewCodec(),
-		Context: context.WithValue(context.Background(), optionsKey, bopts),
+		Context: context.Background(),
 	}
 
 	for _, o := range opts {
 		o(&options)
 	}
 
+	natsOptions := nats.GetDefaultOptions()
+	if n, ok := options.Context.Value(optionsKey{}).(nats.Options); ok {
+		natsOptions = n
+	}
+
 	// broker.Options have higher priority than nats.Options
 	// only if Addrs, Secure or TLSConfig were not set through a broker.Option
 	// we read them from nats.Option
 	if len(options.Addrs) == 0 {
-		options.Addrs = bopts.natsOptions.Servers
+		options.Addrs = natsOptions.Servers
 	}
 
 	if !options.Secure {
-		options.Secure = bopts.natsOptions.Secure
+		options.Secure = natsOptions.Secure
 	}
 
 	if options.TLSConfig == nil {
-		options.TLSConfig = bopts.natsOptions.TLSConfig
+		options.TLSConfig = natsOptions.TLSConfig
 	}
 
 	nb := &nbroker{
 		opts:  options,
-		nopts: bopts.natsOptions,
+		nopts: natsOptions,
 		addrs: setAddrs(options.Addrs),
 	}
 

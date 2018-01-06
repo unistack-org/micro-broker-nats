@@ -67,7 +67,7 @@ func TestInitAddrs(t *testing.T) {
 			case "natsOptionConstructor":
 				nopts := nats.GetDefaultOptions()
 				nopts.Servers = addrs
-				br = NewBroker(NatsOptions(nopts))
+				br = NewBroker(Options(nopts))
 				br.Init()
 			case "default":
 				br = NewBroker()
