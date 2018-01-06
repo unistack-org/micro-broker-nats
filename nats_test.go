@@ -14,21 +14,21 @@ var addrTestCases = []struct {
 	addrs       map[string]string // expected address : set address
 }{
 	{
-		"brokerOptionConstructor",
+		"brokerOpts",
 		"set broker addresses through a broker.Option in constructor",
 		map[string]string{
 			"nats://192.168.10.1:5222": "192.168.10.1:5222",
 			"nats://10.20.10.0:4222":   "10.20.10.0:4222"},
 	},
 	{
-		"brokerOptionInit",
+		"brokerInit",
 		"set broker addresses through a broker.Option in broker.Init()",
 		map[string]string{
 			"nats://192.168.10.1:5222": "192.168.10.1:5222",
 			"nats://10.20.10.0:4222":   "10.20.10.0:4222"},
 	},
 	{
-		"natsOptionConstructor",
+		"natsOpts",
 		"set broker addresses through the nats.Option in constructor",
 		map[string]string{
 			"nats://192.168.10.1:5222": "192.168.10.1:5222",
@@ -56,15 +56,15 @@ func TestInitAddrs(t *testing.T) {
 			}
 
 			switch tc.name {
-			case "brokerOptionConstructor":
+			case "brokerOpts":
 				// we know that there are just two addrs in the dict
 				br = NewBroker(broker.Addrs(addrs[0], addrs[1]))
 				br.Init()
-			case "brokerOptionInit":
+			case "brokerInit":
 				br = NewBroker()
 				// we know that there are just two addrs in the dict
 				br.Init(broker.Addrs(addrs[0], addrs[1]))
-			case "natsOptionConstructor":
+			case "natsOpts":
 				nopts := nats.GetDefaultOptions()
 				nopts.Servers = addrs
 				br = NewBroker(Options(nopts))
