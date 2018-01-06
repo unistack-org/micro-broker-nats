@@ -1,7 +1,7 @@
 package nats
 
 import (
-	"context"
+	"golang.org/x/net/context"
 
 	"github.com/micro/go-micro/broker"
 	"github.com/nats-io/nats"
