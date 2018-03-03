@@ -2,9 +2,8 @@
 package nats
 
 import (
+	"context"
 	"strings"
-
-	"golang.org/x/net/context"
 
 	"github.com/micro/go-micro/broker"
 	"github.com/micro/go-micro/broker/codec/json"
