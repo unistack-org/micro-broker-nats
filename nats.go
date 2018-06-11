@@ -8,7 +8,7 @@ import (
 	"github.com/micro/go-micro/broker"
 	"github.com/micro/go-micro/broker/codec/json"
 	"github.com/micro/go-micro/cmd"
-	"github.com/nats-io/nats"
+	"github.com/nats-io/go-nats"
 )
 
 type nbroker struct {
