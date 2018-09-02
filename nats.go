@@ -85,7 +85,7 @@ func setAddrs(addrs []string) []string {
 }
 
 func (n *nbroker) Connect() error {
-	if n.conn != nil {
+	if n.conn != nil && n.conn.IsConnected() {
 		return nil
 	}
 
