@@ -7,7 +7,7 @@ import (
 	"sync"
 
 	"github.com/micro/go-micro/broker"
-	"github.com/micro/go-micro/broker/codec/json"
+	"github.com/micro/go-micro/codec/json"
 	"github.com/micro/go-micro/cmd"
 	"github.com/nats-io/go-nats"
 )
@@ -183,7 +183,7 @@ func (n *nbroker) String() string {
 func NewBroker(opts ...broker.Option) broker.Broker {
 	options := broker.Options{
 		// Default codec
-		Codec:   json.NewCodec(),
+		Codec:   json.Marshaler{},
 		Context: context.Background(),
 	}
 
