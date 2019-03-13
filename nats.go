@@ -88,31 +88,35 @@ func setAddrs(addrs []string) []string {
 }
 
 func (n *nbroker) Connect() error {
-	n.RLock()
-	if n.conn != nil && n.conn.IsConnected() {
-		n.RUnlock()
+	n.Lock()
+	defer n.Unlock()
+
+	status := nats.CLOSED
+	if n.conn != nil {
+		status = n.conn.Status()
+	}
+
+	switch status {
+	case nats.CONNECTED, nats.RECONNECTING, nats.CONNECTING:
+		return nil
+	default: // DISCONNECTED or CLOSED or DRAINING
+		opts := n.nopts
+		opts.Servers = n.addrs
+		opts.Secure = n.opts.Secure
+		opts.TLSConfig = n.opts.TLSConfig
+
+		// secure might not be set
+		if n.opts.TLSConfig != nil {
+			opts.Secure = true
+		}
+
+		c, err := opts.Connect()
+		if err != nil {
+			return err
+		}
+		n.conn = c
 		return nil
 	}
-	n.RUnlock()
-
-	opts := n.nopts
-	opts.Servers = n.addrs
-	opts.Secure = n.opts.Secure
-	opts.TLSConfig = n.opts.TLSConfig
-
-	// secure might not be set
-	if n.opts.TLSConfig != nil {
-		opts.Secure = true
-	}
-
-	c, err := opts.Connect()
-	if err != nil {
-		return err
-	}
-	n.Lock()
-	n.conn = c
-	n.Unlock()
-	return nil
 }
 
 func (n *nbroker) Disconnect() error {
