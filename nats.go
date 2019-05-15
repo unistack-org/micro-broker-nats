@@ -56,7 +56,7 @@ func (n *subscriber) Topic() string {
 }
 
 func (n *subscriber) Unsubscribe() error {
-	return n.s.Unsubscribe()
+	return n.s.Drain()
 }
 
 func (n *nbroker) Address() string {
@@ -121,7 +121,7 @@ func (n *nbroker) Connect() error {
 
 func (n *nbroker) Disconnect() error {
 	n.RLock()
-	n.conn.Close()
+	n.conn.Drain()
 	n.RUnlock()
 	return nil
 }
