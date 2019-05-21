@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/micro/go-micro/broker"
-	"github.com/nats-io/go-nats"
+	nats "github.com/nats-io/nats.go"
 )
 
 var addrTestCases = []struct {
@@ -38,7 +38,9 @@ var addrTestCases = []struct {
 		"default",
 		"check if default Address is set correctly",
 		map[string]string{
-			"nats://localhost:4222": ""},
+			"nats://localhost:4222": "",
+			"nats://127.0.0.1:4222": "",
+		},
 	},
 }
 
@@ -78,8 +80,10 @@ func TestInitAddrs(t *testing.T) {
 			if !ok {
 				t.Fatal("Expected broker to be of types *nbroker")
 			}
-			// check if the same amount of addrs we set has actually been set
-			if len(natsBroker.addrs) != len(tc.addrs) {
+			// check if the same amount of addrs we set has actually been set, default
+			// have only 1 address nats://127.0.0.1:4222 (current nats code) or
+			// nats://localhost:4222 (older code version)
+			if len(natsBroker.addrs) != len(tc.addrs) && tc.name != "default" {
 				t.Errorf("Expected Addr count = %d, Actual Addr count = %d",
 					len(natsBroker.addrs), len(tc.addrs))
 			}
