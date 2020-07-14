@@ -4,7 +4,7 @@ package memory
 import (
 	"github.com/micro/go-micro/v2/broker"
 	"github.com/micro/go-micro/v2/broker/nats"
-	"github.com/micro/go-micro/v2/config/cmd"
+	"github.com/micro/go-micro/v2/cmd"
 )
 
 func init() {
