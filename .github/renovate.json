@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "groupName": "all deps",
+      "separateMajorMinor": true,
+      "groupSlug": "all",
+      "packagePatterns": [
+        "*"
+      ]
+    }
+  ]
+}
