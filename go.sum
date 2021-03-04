@@ -78,6 +78,8 @@ github.com/unistack-org/micro/v3 v3.2.14 h1:BD7JR2W0WlJvJgHN3uPWrE/vNAGyxhIQrIOD
 github.com/unistack-org/micro/v3 v3.2.14/go.mod h1:3j13mSd/rILNjyP0tEVtDxyDkJBtnHUXShNCuPHkC5A=
 github.com/unistack-org/micro/v3 v3.2.15 h1:9Wg6FAFVPUijAm5ZFF+y4oYEd8zd/Pp48QwmMrSs074=
 github.com/unistack-org/micro/v3 v3.2.15/go.mod h1:y+fV+BPNK2IqGoLquRU396jTYifG0HCw3zxFfI4E0dc=
+github.com/unistack-org/micro/v3 v3.2.16 h1:eQwEJr7RiB0jvOSAil+c6t2C1zW7MpfFAVx2u9PmItM=
+github.com/unistack-org/micro/v3 v3.2.16/go.mod h1:y+fV+BPNK2IqGoLquRU396jTYifG0HCw3zxFfI4E0dc=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
 golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
