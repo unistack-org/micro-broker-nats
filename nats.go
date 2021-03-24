@@ -19,11 +19,11 @@ type natsBroker struct {
 
 	// indicate if we're connected
 	connected bool
-
-	addrs []string
-	conn  *nats.Conn
-	opts  broker.Options
-	nopts nats.Options
+	init      bool
+	addrs     []string
+	conn      *nats.Conn
+	opts      broker.Options
+	nopts     nats.Options
 
 	// should we drain the connection
 	drain   bool
@@ -156,6 +156,23 @@ func (n *natsBroker) Disconnect(ctx context.Context) error {
 }
 
 func (n *natsBroker) Init(opts ...broker.Option) error {
+	if len(opts) == 0 && n.init {
+		return nil
+	}
+
+	if err := n.opts.Register.Init(); err != nil {
+		return err
+	}
+	if err := n.opts.Tracer.Init(); err != nil {
+		return err
+	}
+	if err := n.opts.Logger.Init(); err != nil {
+		return err
+	}
+	if err := n.opts.Meter.Init(); err != nil {
+		return err
+	}
+
 	n.setOption(opts...)
 	if n.opts.Codec == nil {
 		return fmt.Errorf("codec is nil")
