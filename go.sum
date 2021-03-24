@@ -29,6 +29,7 @@ github.com/patrickmn/go-cache v2.1.0+incompatible/go.mod h1:3Qf8kWWT7OJRJbdiICTK
 github.com/silas/dag v0.0.0-20210121180416-41cf55125c34/go.mod h1:7RTUFBdIRC9nZ7/3RyRNH1bdqIShrDejd1YbLwgPS+I=
 github.com/unistack-org/micro/v3 v3.3.0 h1:pEj/8QVFzMlNMEL//q/Te8qgG+XI6LTYIQrb6hMymgk=
 github.com/unistack-org/micro/v3 v3.3.0/go.mod h1:iJwCWq2PECMxigfqe6TPC5GLWvj6P94Kk+PTVZGL3w8=
+github.com/unistack-org/micro/v3 v3.3.1/go.mod h1:iJwCWq2PECMxigfqe6TPC5GLWvj6P94Kk+PTVZGL3w8=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
 golang.org/x/crypto v0.0.0-20200323165209-0ec3e9974c59 h1:3zb4D3T4G8jdExgVU/95+vQXfpEPiMdCaZgmGVxjNHM=
