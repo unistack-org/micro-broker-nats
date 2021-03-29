@@ -34,6 +34,7 @@ github.com/unistack-org/micro/v3 v3.3.2/go.mod h1:tX95c0Qx4w6oqU7qKThs9lya9P507B
 github.com/unistack-org/micro/v3 v3.3.4/go.mod h1:tX95c0Qx4w6oqU7qKThs9lya9P507BdZ29MsTVDmU6w=
 github.com/unistack-org/micro/v3 v3.3.8 h1:4e4gWuZI/cRUGZ6ZZpdrIDOF2MLO6cjHxeFfZzy610Y=
 github.com/unistack-org/micro/v3 v3.3.8/go.mod h1:M3RGgKZX1OlTn0QB+3R1tlSoGwmEg6rb/Isr0lLYmjQ=
+github.com/unistack-org/micro/v3 v3.3.9/go.mod h1:M3RGgKZX1OlTn0QB+3R1tlSoGwmEg6rb/Isr0lLYmjQ=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
 golang.org/x/crypto v0.0.0-20200323165209-0ec3e9974c59 h1:3zb4D3T4G8jdExgVU/95+vQXfpEPiMdCaZgmGVxjNHM=
