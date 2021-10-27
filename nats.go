@@ -1,5 +1,5 @@
 // Package nats provides a NATS broker
-package nats
+package nats // import "go.unistack.org/micro-broker-nats/v3"
 
 import (
 	"context"
@@ -9,9 +9,9 @@ import (
 	"sync"
 
 	nats "github.com/nats-io/nats.go"
-	"github.com/unistack-org/micro/v3/broker"
-	"github.com/unistack-org/micro/v3/logger"
-	"github.com/unistack-org/micro/v3/metadata"
+	"go.unistack.org/micro/v3/broker"
+	"go.unistack.org/micro/v3/logger"
+	"go.unistack.org/micro/v3/metadata"
 	"golang.org/x/sync/errgroup"
 )
 
