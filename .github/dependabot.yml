@@ -11,16 +11,9 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    commit-message:
-      prefix: "chore"
-      include: "scope"
 
   # Maintain dependencies for Golang
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
       interval: "daily"
-    commit-message:
-      prefix: "chore"
-      include: "scope"
-
