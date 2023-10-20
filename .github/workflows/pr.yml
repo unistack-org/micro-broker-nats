@@ -14,7 +14,7 @@ jobs:
       with:
         go-version: 1.17
     - name: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: cache
       uses: actions/cache@v3
       with:
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: lint
         uses: golangci/golangci-lint-action@v3.4.0
         continue-on-error: true
