@@ -204,7 +204,7 @@ func (n *natsBroker) Options() broker.Options {
 
 func (n *natsBroker) BatchPublish(ctx context.Context, p []*broker.Message, opts ...broker.PublishOption) error {
 	var err error
-	msgs := make([]*nats.Msg, len(p))
+	msgs := make([]*nats.Msg, 0, len(p))
 	var wg sync.WaitGroup
 
 	wg.Add(len(p))
