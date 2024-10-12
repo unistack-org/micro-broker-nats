@@ -1,5 +1,5 @@
 // Package nats provides a NATS broker
-package nats // import "go.unistack.org/micro-broker-nats/v3"
+package nats
 
 import (
 	"context"
@@ -42,6 +42,7 @@ type publication struct {
 	topic string
 	err   error
 	msg   *broker.Message
+	ctx   context.Context
 }
 
 func (p *publication) Topic() string {
@@ -63,6 +64,10 @@ func (p *publication) SetError(err error) {
 
 func (p *publication) Error() error {
 	return p.err
+}
+
+func (p *publication) Context() context.Context {
+	return p.ctx
 }
 
 type subscriber struct {
@@ -135,7 +140,7 @@ func (n *natsBroker) Connect(ctx context.Context) error {
 		c, err := opts.Connect()
 		if err != nil {
 			if n.opts.Logger.V(logger.WarnLevel) {
-				n.opts.Logger.Warnf(n.opts.Context, "error connecting to broker: %v", err)
+				n.opts.Logger.Error(n.opts.Context, "error connecting to broker", err)
 			}
 
 			return err
@@ -306,6 +311,7 @@ func (n *natsBroker) Subscribe(ctx context.Context, topic string, handler broker
 		pub.msg.Body = nil
 		pub.topic = msg.Subject
 		pub.err = nil
+		pub.ctx = ctx
 
 		if options.BodyOnly {
 			pub.msg.Body = msg.Data
@@ -324,7 +330,7 @@ func (n *natsBroker) Subscribe(ctx context.Context, topic string, handler broker
 					eh(pub)
 				} else {
 					if n.opts.Logger.V(logger.ErrorLevel) {
-						n.opts.Logger.Error(n.opts.Context, err)
+						n.opts.Logger.Error(n.opts.Context, "handler error", err)
 					}
 				}
 				return
@@ -336,7 +342,7 @@ func (n *natsBroker) Subscribe(ctx context.Context, topic string, handler broker
 				eh(pub)
 			} else {
 				if n.opts.Logger.V(logger.ErrorLevel) {
-					n.opts.Logger.Error(n.opts.Context, err)
+					n.opts.Logger.Error(n.opts.Context, "handler error", err)
 				}
 			}
 		}
@@ -420,7 +426,7 @@ func NewBroker(opts ...broker.Option) *natsBroker {
 	options := broker.NewOptions(opts...)
 
 	if options.Codec.String() != "noop" {
-		options.Logger.Infof(options.Context, "broker codec not noop, disable plain nats headers usage")
+		options.Logger.Info(options.Context, "broker codec not noop, disable plain nats headers usage")
 	}
 
 	n := &natsBroker{
