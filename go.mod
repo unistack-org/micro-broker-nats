@@ -3,7 +3,7 @@ module go.unistack.org/micro-broker-nats/v3
 go 1.26.0
 
 require (
-	github.com/nats-io/nats.go v1.55.0
+	github.com/nats-io/nats.go v1.56.0
 	go.unistack.org/micro/v3 v3.11.51
 	golang.org/x/sync v0.25.0
 )
